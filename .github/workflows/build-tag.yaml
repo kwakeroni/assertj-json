@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - '!*'
+    tags:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      - name: Prepare release build with Maven
+        run: mvn --batch-mode --update-snapshots verify -Pcomplete,tag
+      - uses: actions/upload-artifact@v2
+        with:
+          name: jar
+          path: |
+            target/assertj-json-*.jar
+            !target/assertj-json-*-sources.jar
+            !target/assertj-json-*-javadoc.jar
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sources-jar
+          path: target/assertj-json-*-sources.jar
+      - uses: actions/upload-artifact@v2
+        with:
+          name: javadoc-jar
+          path: target/assertj-json-*-javadoc.jar
