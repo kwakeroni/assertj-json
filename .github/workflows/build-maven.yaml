@@ -23,6 +23,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: jar
-          path: |
-            target/assertj-json-[0-9]+.[0-9]+.[0-9]+.jar
-            target/assertj-json-[0-9]+.[0-9]+.[0-9]+-SNAPSHOT.jar
+          path: target/assertj-json-*.jar
