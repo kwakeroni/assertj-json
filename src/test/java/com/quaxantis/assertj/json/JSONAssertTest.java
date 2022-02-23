@@ -10,7 +10,7 @@
  *
  * Copyright 2022 Maarten Van Puymbroeck.
  */
-package be.kwakeroni.assertj.json;
+package com.quaxantis.assertj.json;
 
 import org.intellij.lang.annotations.Language;
 import org.json.JSONException;
