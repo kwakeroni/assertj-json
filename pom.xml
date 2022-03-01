@@ -13,6 +13,7 @@
     <description>Convenience test library providing JSONAssert comparisons in the fluent AssertJ style.</description>
     <url>https://github.com/kwakeroni/assertj-json</url>
     <inceptionYear>2022</inceptionYear>
+<!--    <organization><name>Maarten Van Puymbroeck</name></organization>-->
 
     <licenses>
         <license>
@@ -121,7 +122,7 @@
                         <artifactId>maven-enforcer-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>verify-release-constraints-test2</id>
+                                <id>verify-release-constraints</id>
                                 <goals>
                                     <goal>enforce</goal>
                                 </goals>
