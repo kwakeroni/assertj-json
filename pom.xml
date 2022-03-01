@@ -121,7 +121,7 @@
                         <artifactId>maven-enforcer-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>verify-release-constraints</id>
+                                <id>verify-release-constraints-test</id>
                                 <goals>
                                     <goal>enforce</goal>
                                 </goals>
