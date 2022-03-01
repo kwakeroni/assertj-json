@@ -20,8 +20,8 @@ jobs:
           ls -al
           echo -- ls .mvn
           ls -R .mvn | true
-          echo -- ls /home/runner/.m2/wrapper
-          ls -R /home/runner/.m2/wrapper | true
+          echo -- ls /home/runner/.m2/
+          ls -R /home/runner/.m2/ | true
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
@@ -37,10 +37,12 @@ jobs:
           ls -al
           echo -- ls .mvn
           ls -R .mvn | true
-          echo -- ls /home/runner/.m2/wrapper
-          ls -R /home/runner/.m2/wrapper | true
+          echo -- ls /home/runner/.m2/
+          ls -R /home/runner/.m2/ | true
           echo -- mvnw -version
           ./mvnw -version | true
+          ls -R /home/runner/.m2/ | true
+          echo -- mvnw -version
       - name: Build with Maven
         run: |
           ./mvnw --batch-mode --update-snapshots verify
