@@ -19,7 +19,7 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
-      - name: Cache local Maven repository
+      - name: Cache local Maven repository and wrapper
         uses: actions/cache@v2
         with:
           path: |
