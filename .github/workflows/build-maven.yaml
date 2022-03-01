@@ -15,8 +15,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: testoutput-before
         run: |
-          ls -R .mvn
-          ls -R .m2/wrapper/
+          ls -R .mvn | true
+          ls -R .m2/wrapper/ | true
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
@@ -25,9 +25,10 @@ jobs:
           cache: 'maven'
       - name: testoutput-after
         run: |
-          ls -R .mvn
-          ls -R .m2/wrapper/
-          ./mvnw -version
+          ls -R .mvn | true
+          ls -R .m2/wrapper/ | true
+          ./mvnw -version | true
+          /usr/bin/tar --use-compress-program zstd -d -tvf /home/runner/work/_temp/4458ce2d-3355-4f24-93ef-c4730d8ca4ec/cache.tzst | true
       - name: Build with Maven
         run: ./mvnw --batch-mode --update-snapshots verify
       - uses: actions/upload-artifact@v2
