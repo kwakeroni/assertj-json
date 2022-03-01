@@ -18,6 +18,7 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
+          cache: 'maven'
       - name: Prepare release build with Maven
         run: mvn --batch-mode --update-snapshots verify -Pcomplete,tag
       - uses: actions/upload-artifact@v2
