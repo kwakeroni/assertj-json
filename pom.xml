@@ -13,7 +13,6 @@
     <description>Convenience test library providing JSONAssert comparisons in the fluent AssertJ style.</description>
     <url>https://github.com/kwakeroni/assertj-json</url>
     <inceptionYear>2022</inceptionYear>
-<!--    <organization><name>Maarten Van Puymbroeck</name></organization>-->
 
     <licenses>
         <license>

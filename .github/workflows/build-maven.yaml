@@ -28,9 +28,11 @@ jobs:
           ls -R .mvn | true
           ls -R .m2/wrapper/ | true
           ./mvnw -version | true
-          /usr/bin/tar --use-compress-program zstd -d -tvf /home/runner/work/_temp/4458ce2d-3355-4f24-93ef-c4730d8ca4ec/cache.tzst | true
+          /usr/bin/tar --use-compress-program zstd -tvf /home/runner/work/_temp/4458ce2d-3355-4f24-93ef-c4730d8ca4ec/cache.tzst | true
       - name: Build with Maven
-        run: ./mvnw --batch-mode --update-snapshots verify
+        run: |
+          ./mvnw --batch-mode --update-snapshots verify
+          ./mvnw -version
       - uses: actions/upload-artifact@v2
         with:
           name: jar
