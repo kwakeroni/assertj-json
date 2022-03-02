@@ -23,8 +23,18 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
+      - name: Cache local Maven repository and wrapper
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.m2/wrapper
+            .mvn/wrapper/maven-wrapper.jar
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '.mvn/wrapper/maven-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Prepare release build with Maven
-        run: mvn --batch-mode --update-snapshots -Dgpg.passphrase=${{ secrets.MAVEN_GPG_KEY_PW }} verify -Pcomplete,tag
+        run: ./mvnw --batch-mode --update-snapshots -Dgpg.passphrase=${{ secrets.MAVEN_GPG_KEY_PW }} verify -Pcomplete,tag
       - uses: actions/upload-artifact@v2
         with:
           name: jar
