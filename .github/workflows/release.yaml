@@ -52,6 +52,10 @@ jobs:
           SNAPSHOT_REPO: ${{ secrets.SNAPSHOT_REPO }}
           RELEASE_REPO: ${{ secrets.RELEASE_REPO }}
         run: |
+          echo -- pwd
           pwd
-          cat /home/runner/work/_temp/*sh
-          ./mvnw --batch-mode --update-snapshots ${{ github.event.inputs.goal || 'verify' }} -Pcomplete -DaltSnapshotDeploymentRepository="$SNAPSHOT_REPO" -DaltReleaseDeploymentRepository>="$RELEASE_REPO"
+          echo -- ls -al
+          ls -al
+          for i in /home/runner/work/_temp/*sh; do echo -- $i; cat $i; echo '';  done
+          echo -- mvnw
+          ./mvnw --batch-mode --update-snapshots ${{ github.event.inputs.goal || 'verify' }} -Pcomplete
