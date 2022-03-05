@@ -52,6 +52,8 @@ jobs:
           SNAPSHOT_REPO: ${{ secrets.SNAPSHOT_REPO }}
           RELEASE_REPO: ${{ secrets.RELEASE_REPO }}
         run: |
+          pwd
+          cat /home/runner/work/_temp/*sh
           ./mvnw --batch-mode --update-snapshots \
               ${{ github.event.inputs.goal || 'verify' }} -Pcomplete \
               -DaltSnapshotDeploymentRepository="$SNAPSHOT_REPO" \
