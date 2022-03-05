@@ -49,13 +49,7 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           MAVEN_GPG_KEY_PW: ${{ secrets.MAVEN_GPG_KEY_PW }}
-          SNAPSHOT_REPO: ${{ secrets.SNAPSHOT_REPO }}
-          RELEASE_REPO: ${{ secrets.RELEASE_REPO }}
-        run: |
-          echo -- pwd
-          pwd
-          echo -- ls -al
-          ls -al
-          for i in /home/runner/work/_temp/*sh; do echo -- $i; cat $i; echo '';  done
-          echo -- mvnw
-          ./mvnw --batch-mode --update-snapshots ${{ github.event.inputs.goal || 'verify' }} -Pcomplete
+        run: ./mvnw --batch-mode --update-snapshots \
+             ${{ github.event.inputs.goal || 'verify' }} -Pcomplete \
+             -DaltSnapshotDeploymentRepository="${{ secrets.SNAPSHOT_REPO }}" \
+             -DaltReleaseDeploymentRepository="${{ secrets.RELEASE_REPO }}"
