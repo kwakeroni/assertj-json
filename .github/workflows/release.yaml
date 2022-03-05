@@ -53,5 +53,5 @@ jobs:
           RELEASE_REPO: ${{ secrets.RELEASE_REPO }}
         run: ./mvnw --batch-mode --update-snapshots \
              ${{ github.event.inputs.goal || 'verify' }} -Pcomplete \
-             -DaltSnapshotDeploymentRepository= $SNAPSHOT_REPO \
-             -DaltReleaseDeploymentRepository>= $RELEASE_REPO
+             -DaltSnapshotDeploymentRepository="$SNAPSHOT_REPO" \
+             -DaltReleaseDeploymentRepository>="$RELEASE_REPO"
