@@ -51,12 +51,6 @@ jobs:
           MAVEN_GPG_KEY_PW: ${{ secrets.MAVEN_GPG_KEY_PW }}
           SNAPSHOT_REPO: ${{ secrets.SNAPSHOT_REPO }}
           RELEASE_REPO: ${{ secrets.RELEASE_REPO }}
-        run: |
-          echo Using snapshot repo: $(echo $SNAPSHOT_REPO | md5sum)
-          echo Using  release repo: $(echo $RELEASE_REPO | md5sum)
-          echo Using   deploy user: $(echo $OSSRH_USER | md5sum)
-          echo Using     deploy pw: $(echo $OSSRH_PASSWORD | md5sum)
-          ./mvnw --batch-mode --update-snapshots \
-              ${{ github.event.inputs.goal || 'verify' }} -Pcomplete \
-              -DaltSnapshotDeploymentRepository="$SNAPSHOT_REPO" \
-              -DaltReleaseDeploymentRepository="$RELEASE_REPO"
+          GOAL: ${{ github.event.inputs.goal || 'verify' }}
+        run: bash build_release.sh
+
