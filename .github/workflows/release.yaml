@@ -24,8 +24,8 @@ jobs:
           gpg --list-secret-keys --keyid-format LONG
       - name: Set up Maven Settings
         run: |
-          cp .mvn/settings.xml $HOME/.m2
-          cp .mvn/settings-security.xml $HOME/.m2
+          cp .mvn/settings.xml $HOME/.m2/
+          cp .mvn/settings-security.xml $HOME/.m2/
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
