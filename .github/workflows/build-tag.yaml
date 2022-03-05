@@ -13,11 +13,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.MAVEN_GPG_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+      - name: Set up Maven Settings
+        run: |
+          mkdir -p $HOME/.m2/
+          cp .mvn/settings.xml $HOME/.m2/
+          cp .mvn/settings-security.xml $HOME/.m2/
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
           java-version: '8'
           distribution: 'temurin'
+          overwrite-settings: false
       - name: Cache local Maven repository and wrapper
         uses: actions/cache@v2
         with:
@@ -29,7 +39,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Prepare release build with Maven
-        run: ./mvnw --batch-mode --update-snapshots verify -Pcomplete,tag
+        env:
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_GPG_KEY_PW: ${{ secrets.MAVEN_GPG_KEY_PW }}
+        run: |
+          ./mvnw --batch-mode --update-snapshots \
+            verify -Pcomplete,tag \
       - uses: actions/upload-artifact@v2
         with:
           name: jar

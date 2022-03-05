@@ -1,6 +1,16 @@
 name: Release
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      goal:
+        description: 'Maven Goal'
+        required: true
+        default: 'verify'
+        type: choice
+        options:
+          - verify
+          - deploy
 
 jobs:
   build:
@@ -8,11 +18,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.MAVEN_GPG_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+      - name: Set up Maven Settings
+        run: |
+          mkdir -p $HOME/.m2/
+          cp .mvn/settings.xml $HOME/.m2/
+          cp .mvn/settings-security.xml $HOME/.m2/
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
           java-version: '8'
           distribution: 'temurin'
+          overwrite-settings: false
       - name: Cache local Maven repository and wrapper
         uses: actions/cache@v2
         with:
@@ -24,4 +44,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Prepare release build with Maven
-        run: ./mvnw --batch-mode --update-snapshots verify -Pcomplete
+        env:
+          OSSRH_USER: ${{ secrets.OSSRH_USER }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_GPG_KEY_PW: ${{ secrets.MAVEN_GPG_KEY_PW }}
+          SNAPSHOT_REPO: ${{ secrets.SNAPSHOT_REPO }}
+          RELEASE_REPO: ${{ secrets.RELEASE_REPO }}
+          GOAL: ${{ github.event.inputs.goal || 'verify' }}
+        run: |
+          echo Using snapshot repo: $(echo $SNAPSHOT_REPO | md5sum)
+          echo Using  release repo: $(echo $RELEASE_REPO | md5sum)
+          echo Using   deploy user: $(echo $OSSRH_USER | md5sum)
+          echo Using     deploy pw: $(echo $OSSRH_PASSWORD | md5sum)
+          ./mvnw --batch-mode --update-snapshots \
+            $GOAL -Pcomplete \
+            -DaltSnapshotDeploymentRepository="$SNAPSHOT_REPO" \
+            -DaltReleaseDeploymentRepository="$RELEASE_REPO"
+
