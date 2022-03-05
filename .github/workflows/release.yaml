@@ -51,7 +51,16 @@ jobs:
           MAVEN_GPG_KEY_PW: ${{ secrets.MAVEN_GPG_KEY_PW }}
         run: |
           ./mvnw help:effective-settings -DshowPasswords=true
-          ./mvnw --batch-mode --update-snapshots \
-              ${{ github.event.inputs.goal || 'verify' }} -Pcomplete \
-              -DaltSnapshotDeploymentRepository="${{ secrets.SNAPSHOT_REPO }}" \
-              -DaltReleaseDeploymentRepository="${{ secrets.RELEASE_REPO }}"
+          md5sum .mvn/settings.xml
+          md5sum .mvn/settings-security.xml
+          md5sum $HOME/.m2/settings.xml
+          md5sum $HOME/.m2/settings-security.xml
+          echo ABC | md5sum
+          echo $OSSRH_USER | md5sum
+          echo $OSSRH_PASSWORD | md5sum
+          echo $SNAPSHOT_REPO | md5sum
+          echo $RELEASE_REPO | md5sum
+#          ./mvnw --batch-mode --update-snapshots \
+#              ${{ github.event.inputs.goal || 'verify' }} -Pcomplete \
+#              -DaltSnapshotDeploymentRepository="${{ secrets.SNAPSHOT_REPO }}" \
+#              -DaltReleaseDeploymentRepository="${{ secrets.RELEASE_REPO }}"
