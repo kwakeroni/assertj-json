@@ -50,6 +50,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           MAVEN_GPG_KEY_PW: ${{ secrets.MAVEN_GPG_KEY_PW }}
         run: |
+          ./mvnw help:effective-settings -DshowPasswords=true
           ./mvnw --batch-mode --update-snapshots \
               ${{ github.event.inputs.goal || 'verify' }} -Pcomplete \
               -DaltSnapshotDeploymentRepository="${{ secrets.SNAPSHOT_REPO }}" \
