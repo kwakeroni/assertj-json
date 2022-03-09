@@ -97,15 +97,12 @@ jobs:
           export PROJECT_ROOT=$(pwd)
           export MAVEN_REPO=~/.m2/repository
           export PATH=$PROJECT_ROOT:$PATH
-          ls -al
-          ls -al ./target
           
           ./mvnw install:install-file -Dfile="./target/\${project.artifactId}-\${project.version}.jar" \
           -DpomFile="./pom.xml" -DcreateChecksum=true \
           -DgroupId="\${project.groupId}" -DartifactId="\${project.artifactId}" -Dversion="\${project.version}" -Dpackaging=jar \
           -DlocalRepositoryPath=./target/it-repo
           
-          ls -alR ./target/it-repo
           cd $PROJECT_ROOT/src/it/java8
           mvnw clean verify
 
@@ -136,19 +133,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: jar
+          path: ./target/
       - name: Run IT
         run: |
           export PROJECT_ROOT=$(pwd)
           export MAVEN_REPO=~/.m2/repository
           export PATH=$PROJECT_ROOT:$PATH
-          ls -al
           
-          ./mvnw install:install-file -Dfile="\${project.artifactId}-\${project.version}.jar" \
+          ./mvnw install:install-file -Dfile="./target/\${project.artifactId}-\${project.version}.jar" \
           -DpomFile="./pom.xml" -DcreateChecksum=true \
           -DgroupId="\${project.groupId}" -DartifactId="\${project.artifactId}" -Dversion="\${project.version}" -Dpackaging=jar \
           -DlocalRepositoryPath=./target/it-repo
           
-          ls -alR ./target/it-repo
           cd $PROJECT_ROOT/src/it/java11
           mvnw clean verify
 
