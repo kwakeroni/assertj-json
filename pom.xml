@@ -13,7 +13,6 @@
     <description>Convenience test library providing JSONAssert comparisons in the fluent AssertJ style.</description>
     <url>https://github.com/kwakeroni/assertj-json</url>
     <inceptionYear>2022</inceptionYear>
-<!--    <organization><name>Maarten Van Puymbroeck</name></organization>-->
 
     <licenses>
         <license>
@@ -83,6 +82,18 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.2</version>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Automatic-Module-Name>com.quaxantis.assertj.json</Automatic-Module-Name>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
